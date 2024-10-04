@@ -77,6 +77,101 @@ string Tabs(short Number)
 	return t;
 }
 
+enWinner WhoWonTheRound(stRoundInfo RoundInfo)
+{
+	if (RoundInfo.Player1Choice == RoundInfo.ComputerChoice)
+	{
+		return enWinner::NoWinner;
+	}
+
+	switch (RoundInfo.Player1Choice)
+	{
+	case enGameChoice::Rock:
+		if (RoundInfo.ComputerChoice == enGameChoice::Paper)
+		{
+			return enWinner::Computer;
+		}
+		break;
+	case enGameChoice::Paper:
+		if (RoundInfo.ComputerChoice == enGameChoice::Scissor)
+		{
+			return enWinner::Computer;
+		}
+		break;
+	case enGameChoice::Scissor:
+		if (RoundInfo.ComputerChoice == enGameChoice::Rock)
+		{
+			return enWinner::Computer;
+		}
+		break;
+	}
+	
+	return enWinner::Player1;
+
+}
+
+enWinner WhoWonTheGame(short Player1WinTimes, short ComputerWinTimes)
+{
+	if (Player1WinTimes > ComputerWinTimes)
+	{
+		return enWinner::Player1;
+	}
+	else if (Player1WinTimes < ComputerWinTimes)
+	{
+		return enWinner::Computer;
+	}
+	else
+	{
+		return enWinner::NoWinner;
+	}
+}
+
+string WinnerName(enWinner Winner)
+{
+	string WinnerArray[3] = { "Player1", "Computer", "No Winner" };
+	return WinnerArray[ Winner - 1 ];
+}
+
+string ChoiceName(enGameChoice Choice)
+{
+	string ChoiceArray[3] = { "Rock", "Paper", "Scissor" };
+	return ChoiceArray[Choice - 1];
+}
+
+void SetScreenColor(enWinner Winner)
+{
+	switch (Winner)
+	{
+	case enWinner::Player1:
+		system("Color 2F");
+		break;
+
+	case enWinner::Computer:
+		system("Color 4F");
+		cout << "\a";
+		break;
+
+	case enWinner::NoWinner:
+		system("Color 6F");
+		break;
+	}
+}
+
+void PrintRoundResult(stRoundInfo RoundInfo)
+{
+	cout << "________________ Round [" << RoundInfo.GameRound << "] ______________________\n\n";
+	cout << "Player1  Choice: " << ChoiceName(RoundInfo.Player1Choice) << endl;
+	cout << "Computer Choice: " << ChoiceName(RoundInfo.ComputerChoice) << endl;
+	cout << "Round Winner   : [" << RoundInfo.WinnerName << "]\n";
+	cout << "________________________________________________________\n\n";
+
+	SetScreenColor(RoundInfo.Winner);
+}
+
+
+
+
+
 
 
 
